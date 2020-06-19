@@ -3,16 +3,19 @@ package entities;
 import enums.Consumers;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "aliases")
-public class Alias {
+public class Alias implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "title")
+    @NotNull(message = "alias can't be null")
+    @Column(name = "title", unique = true)
     private String title;
 
     @Column(name = "consumer")

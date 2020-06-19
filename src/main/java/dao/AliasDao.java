@@ -7,34 +7,35 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateSessionFactoryUtil;
 
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+import java.util.List;
+
 public class AliasDao {
 
-    public Alias findAliasById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Alias.class, id);
+    public Alias findAliasById(Session session, int id) {
+        return session.get(Alias.class, id);
     }
 
-    public void save(Alias alias) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.save(alias);
-        tx1.commit();
-        session.close();
+    public Alias findAliasByTitle(Session session, String title) {
+        String queryString = "SELECT a FROM  Alias a " +
+                "WHERE a.title = :alias_title";
+        Query query = session.createQuery(queryString);
+        query.setParameter("alias_title", title);
+        List<Alias> list = query.getResultList();
+        return list.get(0);
     }
 
-    public void update(Alias alias) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.update(alias);
-        tx1.commit();
-        session.close();
+    public void save(Session session, Alias alias) {
+        session.persist(alias);
     }
 
-    public void delete(Alias alias) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.delete(alias);
-        tx1.commit();
-        session.close();
+    public void update(Session session, Alias alias) {
+        session.merge(alias);
+    }
+
+    public void delete(Session session, Alias alias) {
+        session.remove(alias);
     }
 
 }

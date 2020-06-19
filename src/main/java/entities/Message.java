@@ -3,6 +3,7 @@ package entities;
 import enums.Consumers;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "messages")
@@ -14,13 +15,14 @@ public class Message {
     private int id;
 
     @OneToOne(targetEntity=User.class, fetch=FetchType.EAGER)
-    private User user;
+    private User user;//sender
 
+    @NotBlank(message = "text of message can't be blank")
     @Column(name = "text")
     private String text;
 
     @OneToOne(targetEntity=Alias.class, fetch=FetchType.EAGER)
-    private Alias alias;
+    private Alias alias;//consumer's alias
 
     @Column(name = "consumer")
     @Enumerated(EnumType.STRING)

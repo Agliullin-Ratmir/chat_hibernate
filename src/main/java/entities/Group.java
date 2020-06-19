@@ -3,6 +3,7 @@ package entities;
 import enums.Roles;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "app_groups")
@@ -12,11 +13,11 @@ public class Group {
     @Column(name = "id")
     private int id;
 
-    @OneToMany(targetEntity=Alias.class, fetch=FetchType.EAGER)
-    private Alias alias;
+    @ManyToOne(targetEntity=Alias.class, fetch=FetchType.EAGER, cascade = { CascadeType.ALL })
+    private Alias alias;//alias for group
 
-    @OneToMany(targetEntity=User.class, fetch=FetchType.EAGER)
-    private User user;
+    @ManyToOne(targetEntity=User.class, fetch=FetchType.EAGER)//user-admin
+    private User user;//members(both users and admins)
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

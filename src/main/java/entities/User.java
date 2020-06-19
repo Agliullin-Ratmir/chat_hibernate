@@ -1,24 +1,31 @@
 package entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
+    @Size(min = 2, max = 50)
     @Column(name = "first_name")
     private String firstName;
 
+    @Size(min = 2, max = 50)
     @Column(name = "last_name")
     private String lastName;
 
     @OneToOne(targetEntity=Alias.class, fetch=FetchType.EAGER)
     private Alias alias;
 
+    @Email
     @Column(name = "email")
     private String email;
 

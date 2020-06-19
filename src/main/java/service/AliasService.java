@@ -3,7 +3,11 @@ package service;
 import dao.AliasDao;
 import entities.Alias;
 import enums.Consumers;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateSessionFactoryUtil;
 
+import javax.transaction.Transactional;
 import java.util.logging.Logger;
 
 public class AliasService {
@@ -15,7 +19,11 @@ public class AliasService {
         Alias alias = new Alias();
         alias.setTitle(title);
         alias.setConsumer(Consumers.GROUP);
-        aliasDao.save(alias);
+        Session session = getSession();
+        Transaction tx1 = session.beginTransaction();
+        aliasDao.save(session, alias);
+        tx1.commit();
+        session.close();
         log.info(String.format("new alias for group with title=%s has been added",
                 title));
     }
@@ -24,8 +32,12 @@ public class AliasService {
         Alias alias = new Alias();
         alias.setTitle(title);
         alias.setConsumer(Consumers.PERSON);
-        aliasDao.save(alias);
+        aliasDao.save(getSession(), alias);
         log.info(String.format("new alias for person with title=%s has been added",
                 title));
+    }
+
+    private Session getSession() {
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession();
     }
 }
