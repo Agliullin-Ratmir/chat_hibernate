@@ -1,13 +1,17 @@
 package entities;
 
 import enums.Consumers;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Entity
+@Cacheable
 @Table(name = "messages")
-public class Message {
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class Message  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +31,17 @@ public class Message {
     @Column(name = "consumer")
     @Enumerated(EnumType.STRING)
     private Consumers consumer;
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", user=" + user +
+                ", text='" + text + '\'' +
+                ", alias=" + alias +
+                ", consumer=" + consumer +
+                '}';
+    }
 
     public int getId() {
         return id;

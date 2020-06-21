@@ -21,11 +21,26 @@
     <!-- Update database on startup -->
     <property name="hibernate.hbm2ddl.auto">update</property>
 
+    <!-- hazelcast config -->
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+    <property name="hibernate.cache.use_query_cache">true</property>
+    <property name="hibernate.cache.use_minimal_puts">true</property>
+    <property name="hibernate.cache.hazelcast.use_lite_member">true</property>
+    <property name="hibernate.cache.region_prefix">hibernate</property>
+    <property name="hibernate.cache.provider_configuration_file_resource_path">hazelcast.xml</property>
+    <property name="hibernate.cache.region.factory_class">com.hazelcast.hibernate.HazelcastLocalCacheRegionFactory</property>
+
     <!-- Annotated entity classes -->
     <mapping class="entities.Alias"/>
     <mapping class="entities.Group"/>
     <mapping class="entities.Message"/>
     <mapping class="entities.User"/>
+    <mapping class="entities.AbstractContact"/>
+    <mapping class="entities.PrivateContact"/>
+    <mapping class="entities.PublicContact"/>
+    <mapping class="settings.AbstractSettings"/>
+    <mapping class="settings.AppSettings"/>
+    <mapping class="settings.DeveloperSettings"/>
 
 </session-factory>
 </hibernate-configuration>

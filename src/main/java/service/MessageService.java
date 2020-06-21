@@ -22,6 +22,10 @@ public class MessageService {
 
     private MessageDao messageDao = new MessageDao();
 
+    public Message findMessageById(Session session, int id) {
+        return messageDao.findMessageById(session, id);
+    }
+
     public void writeNewMessage(Session session, Message message) {
         messageDao.save(session, message);
         log.info(String.format("new message from %s to %s",

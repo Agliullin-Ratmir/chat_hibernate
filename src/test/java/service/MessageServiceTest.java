@@ -36,6 +36,31 @@ public class MessageServiceTest {
 
     @Test
     public void testWriteMessage() {
+
+        MessageService service = new MessageService();
+        putNewMessage(service);
+
+        List<String> list = service.getAllMessagesToUser(session, getConsumerAlias());
+        assertNotNull(list);
+        assertEquals(1, list.size());
+    }
+
+    @Test
+    public void testCashe() {
+        MessageService service = new MessageService();
+        putNewMessage(service);
+
+        System.out.println("start");
+        for(int i = 0; i < 10; i++) {
+            long startTime = System.currentTimeMillis();
+            System.out.println(service.findMessageById(session, 1).toString());
+            long delta = System.currentTimeMillis() - startTime;
+            System.out.println("Select number " + i + " completed in " + delta + " ms.");
+        }
+        System.out.println("finish");
+    }
+
+    private void putNewMessage(MessageService service) {
         String text = "Hello";
         Alias senderAlias = getSenderAlias();
         Alias consumerAlias = getConsumerAlias();
@@ -47,16 +72,11 @@ public class MessageServiceTest {
         userDao.save(session, consumer);
 
         Message message = new Message();
-        MessageService service = new MessageService();
         message.setConsumer(Consumers.PERSON);
         message.setText(text);
         message.setUser(sender);
         message.setAlias(consumerAlias);
         service.writeNewMessage(session, message);
-
-        List<String> list = service.getAllMessagesToUser(session, consumerAlias);
-        assertNotNull(list);
-        assertEquals(1, list.size());
     }
 
     private Alias getSenderAlias() {

@@ -1,7 +1,11 @@
 import dao.AliasDao;
+import dao.PrivateContactDao;
+import dao.UserDao;
 import entities.Alias;
+import entities.PrivateContact;
 import enums.Consumers;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import service.AliasService;
 import service.GroupService;
 import service.MessageService;
@@ -11,11 +15,8 @@ public class Main {
 
     public static void main(String[] args) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        session.beginTransaction();
-        MessageService service = new MessageService();
-        AliasDao aliasDao = new AliasDao();
-        Alias alias = aliasDao.findAliasById(session, 11);
-        service.getAllMessagesToUser(session, alias).get(0);
+        Transaction tx = session.beginTransaction();
+        tx.commit();
         session.close();
         System.out.println("Done");
     }
