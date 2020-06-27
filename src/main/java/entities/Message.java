@@ -18,14 +18,14 @@ public class Message  implements Serializable {
     @Column(name = "id")
     private int id;
 
-    @OneToOne(targetEntity=User.class, fetch=FetchType.EAGER)
+    @OneToOne(targetEntity=User.class, fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     private User user;//sender
 
     @NotBlank(message = "text of message can't be blank")
     @Column(name = "text")
     private String text;
 
-    @OneToOne(targetEntity=Alias.class, fetch=FetchType.EAGER)
+    @OneToOne(targetEntity=Alias.class, fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     private Alias alias;//consumer's alias
 
     @Column(name = "consumer")

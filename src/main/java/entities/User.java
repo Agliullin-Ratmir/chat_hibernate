@@ -22,7 +22,7 @@ public class User  implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne(targetEntity=Alias.class, fetch=FetchType.EAGER)
+    @OneToOne(targetEntity=Alias.class, fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     private Alias alias;
 
     @Email

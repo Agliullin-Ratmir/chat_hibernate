@@ -16,7 +16,7 @@ public class Group {
     @ManyToOne(targetEntity=Alias.class, fetch=FetchType.EAGER, cascade = { CascadeType.ALL })
     private Alias alias;//alias for group
 
-    @ManyToOne(targetEntity=User.class, fetch=FetchType.EAGER)//user-admin
+    @ManyToOne(targetEntity=User.class, fetch=FetchType.EAGER, cascade = { CascadeType.ALL })//user-admin
     private User user;//members(both users and admins)
 
     @Column(name = "role")
@@ -49,5 +49,15 @@ public class Group {
 
     public void setRole(Roles role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", alias=" + alias +
+                ", user=" + user +
+                ", role=" + role +
+                '}';
     }
 }

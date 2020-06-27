@@ -8,7 +8,6 @@ import java.io.Serializable;
 public class PrivateContact extends AbstractContact implements Serializable {
 
     @OneToOne(targetEntity=User.class, fetch= FetchType.LAZY)
-    @Column(name="observer")
     private User observer;
 
     public User getObserver() {
